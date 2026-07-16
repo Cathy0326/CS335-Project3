@@ -2975,6 +2975,289 @@
             }
           }
         }
+      },
+      "panel-17": {
+        "kind": "Panel",
+        "spec": {
+          "id": 17,
+          "title": "Request timeseries (history)",
+          "description": "Historical request/allowed/blocked counts persisted in Redis. Source: /metrics/timeseries",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "dfk5lf85xepz4f"
+                      },
+                      "spec": {
+                        "columns": [],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "uql",
+                        "queryType": "randomWalk",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "uql": "parse-json\r\nproject \"timestamp\", \"totalRequests\", \"blockedRequests\", \"allowedRequests\"",
+                        "url": "/metrics/timeseries",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET"
+                        }
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [
+                {
+                  "kind": "Transformation",
+                  "group": "convertFieldType",
+                  "spec": {
+                    "options": {
+                      "conversions": [
+                        {
+                          "destinationType": "time",
+                          "targetField": "timestamp"
+                        },
+                        {
+                          "destinationType": "number",
+                          "targetField": "A totalRequests"
+                        },
+                        {
+                          "destinationType": "number",
+                          "targetField": "A blockedRequests"
+                        },
+                        {
+                          "destinationType": "number",
+                          "targetField": "A allowedRequests"
+                        }
+                      ],
+                      "fields": {}
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.0.1",
+            "spec": {
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "min": 0,
+                  "max": 100,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 0,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "A latencyMs"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "dark-green",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "panel-18": {
+        "kind": "Panel",
+        "spec": {
+          "id": 18,
+          "title": "Abuse risk levels (per client)",
+          "description": "Second risk system: consecutive-failure proximity to a ban. Source: /metrics/abuse-risk",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "dfk5lf85xepz4f"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "apiKey",
+                            "text": "API key",
+                            "type": "string"
+                          },
+                          {
+                            "selector": "level",
+                            "text": "Risk level",
+                            "type": "string"
+                          },
+                          {
+                            "selector": "percent",
+                            "text": "Percent",
+                            "type": "number"
+                          }
+                        ],
+                        "filters": [],
+                        "format": "table",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "url",
+                        "type": "json",
+                        "url": "/metrics/abuse-risk",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET"
+                        },
+                        "uql": ""
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "13.0.1",
+            "spec": {
+              "options": {
+                "cellHeight": "sm",
+                "frameIndex": 0,
+                "showHeader": true
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "custom": {
+                    "align": "auto",
+                    "cellOptions": {
+                      "type": "auto"
+                    },
+                    "footer": {
+                      "reducers": []
+                    },
+                    "inspect": false
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
       }
     },
     "layout": {
@@ -3186,6 +3469,32 @@
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-16"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 77,
+              "width": 24,
+              "height": 9,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-17"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 86,
+              "width": 24,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-18"
               }
             }
           }
