@@ -17,7 +17,7 @@ This project implements a **Rate Limiting and Abuse Detection API Gateway**. Whi
 | **Web Layer** | Spring MVC (via spring-boot-starter-web) |
 | **Build tool** | Maven Wrapper exclusively |
 | **Testing** | JUnit 5 (via spring-boot-starter-test) |
-| **State** | In-memory: ConcurrentHashMap for MVP (no database) |
+| **State** | Redis (shared across gateways) with in-memory fallback|
 | **API Client** | Acts as a postman for all manual and automated testing |
 
 ---
@@ -49,7 +49,7 @@ Link to detailed Architecture Diagram: https://excalidraw.com/#room=f78d67fb86f5
 | Component | Behaviour |
 |-----------|-----------|
 | **API Key Validation** | Rejects requests with missing or invalid `X-API-Key` headers → `401 Unauthorized` |
-| **Rate Limiting** | In-memory counters limits the requests per client (`X` req/min) → `429 Too Many Requests` |
+| **Rate Limiting** | Redis-backed counters limit the requests per client (`X` req/min) → `429 Too Many Requests` |
 | **Abuse Detection** | Detects spikes and repeated failures and it temporarily or permanently blocks them → `403 Forbidden` |
 | **Request Logging** | Captures the timestamp, API key, path, decision, and reason for every request |
 | **Request Forwarding** | Passes the validated requests to the backend service on `port 8081` |
